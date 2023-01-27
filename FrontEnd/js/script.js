@@ -11,6 +11,7 @@ afficherFiltres();
 // Variable utilisée en scopeGlobal pour définir les filtres
 {
   var choixFilter;
+  var token = localStorage.getItem("token");
 }
 
 // Fonction pour afficher la liste des projets du localhost
@@ -63,12 +64,10 @@ function afficherFiltres() {
 }
 
 function filtreCat(filtresType) {
-  const nouveauTab = [];
   // Effacer les éléments en trop
   // document.querySelector(".gallery").innerHTML = "";
 
   var choixFilter = document.getElementById(filtresType).id;
-  console.log("choixFilter", choixFilter);
   /* for (let i = 0; i < listProjects.length; i++) {
     // choixFilter prend la valeur du texte du bouton sur lequel on clique
     if (choixFilter == listProjects[i].category.name) {
@@ -79,7 +78,7 @@ function filtreCat(filtresType) {
   } */
 
   const projets = document.querySelector(".gallery").children;
-  console.log("projets", projets);
+
   for (let i = 0; i < projets.length; i++) {
     const projet = projets.item(i);
     const catProjet = projet.dataset.categorie;
@@ -89,7 +88,82 @@ function filtreCat(filtresType) {
       projet.style.display = "block";
     }
   }
+  
 
   // afficherProjets(nouveauTab);
-  // console.log(nouveauTab);
+}
+
+// LOGGED-IN
+
+function login(token){
+  if (token){
+  document.getElementById("account").innerText = "logout";
+  } else{
+    document.getElementById("account").innerText = "login";
+  }
+}
+login(token);
+
+function deco(token){
+  if (token){
+    localStorage.removeItem("token");
+  }
+}
+const logout = document.getElementById("account");
+logout.addEventListener('click', deco);
+
+const modeEdition = document.getElementById("bandeauTop");
+const editDesc = document.getElementById("editDesc");
+const editPic = document.getElementById("editPic");
+const editProject = document.getElementById("editProject");
+
+if(token){
+  modeEdition.style.display="block";
+  editDesc.style.display="block";
+  editPic.style.display="block";
+  editProject.style.display="block";
+}
+
+// MODALE
+
+const openModale = document.getElementById("editProject");
+const closeModale = document.getElementById("closeModale");
+const modal = document.getElementById("backModale");
+const modalContent = document.getElementById("modale");
+const photoModale = document.getElementById("photoModale");
+
+for(let i = 0; i < listProjects.length; i++){
+  //console.log(listProjects[i].imageUrl);
+  const gallery = listProjects[i];
+  const unProjet = document.createElement("div");
+  const photoProject = document.createElement("img");
+  photoProject.crossOrigin = "anonymous";
+  photoProject.src = gallery.imageUrl;
+  unProjet.appendChild(photoProject);
+  /* unProjet.style.cssText = `
+  display: flex;
+  flex-wrap: wrap;
+	justify-content: space-between;` */
+  const titreElement = document.createElement("p");
+  titreElement.innerText = "éditer";
+  titreElement.style.textAlign="left";
+  unProjet.appendChild(titreElement);
+  photoModale.appendChild(unProjet);
+}
+openModale.addEventListener("click", () =>{
+  //console.log(listProjects);
+  modal.style.display="block";
+})
+
+/* closeModale.addEventListener("click", () =>{
+  //console.log(listProjects);
+  modal.style.display="none";
+}) */
+closeModale.onclick = function(){
+  modal.style.display="none";
+}
+window.onclick = function(event){
+  if(event.target == modal){
+    modal.style.display="none";
+  }
 }

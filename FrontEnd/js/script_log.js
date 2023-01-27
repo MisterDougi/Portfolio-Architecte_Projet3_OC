@@ -21,27 +21,30 @@
       body: JSON.stringify(user)
       // Actions après la réponse du server (.then) -> (response) réponse du serv
     }).then((response)=>{
+
         if (response.status === 200){
-            console.log("T'es connecté !");
+          window.location.assign("http://127.0.0.1:5500/FrontEnd/index.html");
         } else if (response.status === 404){
             alert("Email ou mot de passe incorrect");
         } else if (response.status === 401){
-            alert("PAS BON!");
+            alert("Email ou mot de passe incorrect");
         }
-
-        console.log(response);
+        return response.json()
+    })
+    .then((data) => {
+      const token = data.token;
+      localStorage.setItem("token", token);
     });
-
-    
-    // Récupération du résultat après traitement de la demande
-    /* let result = await response.json();
-    console.log(JSON.stringify(result)); */
   }
-  
-  const form = document.getElementById('login');
- // déclenche la fonction "getInfo" au clic (event)
-  form.addEventListener('submit', getInfo);
-
-
-/*    if le mec a les bons id il peut go 
-  else message d'erreur en pop up stylé */
+function login(){
+  let login = localStorage.getItem("token");
+  if (login){
+  document.getElementById("account").innerText = "logout";
+  } else{
+    document.getElementById("account").innerText = "login";
+  }
+}
+const form = document.getElementById('login');
+// déclenche la fonction "getInfo" au clic (event)
+form.addEventListener('submit', getInfo);
+login();
