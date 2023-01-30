@@ -93,7 +93,7 @@ function filtreCat(filtresType) {
   // afficherProjets(nouveauTab);
 }
 
-// LOGGED-IN
+// LOGGED-IN ------------------------------------------------------------------
 
 function login(token){
   if (token){
@@ -112,6 +112,8 @@ function deco(token){
 const logout = document.getElementById("account");
 logout.addEventListener('click', deco);
 
+
+// Déclaration variables de la page édition (utilisateur log)------------------- 
 const modeEdition = document.getElementById("bandeauTop");
 const editDesc = document.getElementById("editDesc");
 const editPic = document.getElementById("editPic");
@@ -124,7 +126,8 @@ if(token){
   editProject.style.display="block";
 }
 
-// MODALE
+
+// MODALE----------------------------------------------------------------------
 
 const openModale = document.getElementById("editProject");
 const closeModale = document.getElementById("closeModale");

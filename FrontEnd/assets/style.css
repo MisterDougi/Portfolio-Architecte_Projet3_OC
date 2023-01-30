@@ -293,17 +293,22 @@ a {
 }
 #editPic{
 	display: none;
-	position: absolute;
-    top: 552px;
-    left: 465px;
+	position: relative;
+	margin-top: 2%;
+    left: 60px;
 	cursor: pointer;
 }
-#editProject{
+.myProjectTitre{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+}
+ #editProject{
 	display: none;
-	position: absolute;
-	left: 1088px;
-    top: 605px;
 	cursor: pointer;
+	margin-left: 1.5%;
+	padding-bottom: 2em;
 }
 .fin{
 	font-weight: 200;

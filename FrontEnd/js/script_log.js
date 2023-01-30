@@ -29,6 +29,7 @@
         } else if (response.status === 401){
             alert("Email ou mot de passe incorrect");
         }
+        // On transforme la promesse du serv en format JSON
         return response.json()
     })
     .then((data) => {
@@ -36,14 +37,14 @@
       localStorage.setItem("token", token);
     });
   }
-function login(){
+/* function login(){
   let login = localStorage.getItem("token");
   if (login){
   document.getElementById("account").innerText = "logout";
   } else{
     document.getElementById("account").innerText = "login";
   }
-}
+} */
 const form = document.getElementById('login');
 // déclenche la fonction "getInfo" au clic (event)
 form.addEventListener('submit', getInfo);
