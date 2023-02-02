@@ -13,13 +13,30 @@
 	<script type="module" src="./js/script.js"></script>
 </head>
 <body>
-	<div id="backModale">
-		<div id="modale">
-				<p id="closeModale"><i class="fa fa-thin fa-xmark"></i></p>
+	<div class="backModale" id="backModalModif">
+		<div class="modale">
+				<p class="closeModale"><i class="fa fa-thin fa-xmark"></i></p>
 				<h2>Galerie photo</h2>
 				<div id="photoModale"></div>
 				<button id="addPic">Ajouter une photo</button>
 				<p id="suppGal">Supprimer la galerie</p>
+		</div>
+	</div>
+	<div class="backModale" id="backModalAdd">
+		<div class="modale">
+				<p class="closeModale"><i class="fa fa-thin fa-xmark"></i></p>
+				<p class="returnModale"><i class="fa fa-arrow-left"></i></p>
+				<h2>Ajout photo</h2>
+				<div id="addPicDiv"><input type="file" name="fileUpload" id="fileUpload" accept="image/png, image/jpeg"><img id="preview"><i class="fa fa-image picModif"></i><button id="ajoutPhotoButton">+ Ajouter photo</button><p class="formatImgButton">jpg, png : 4mo max</p></div>
+				<div id="formulaireAjoutProjet">
+				<label for="Titre" id="titreBlocTitre">Titre</label>
+				<input type="text" name="Titre" id="titreAddProjet" value="">
+				<label for="Categorie" id="titreBlocCat">Catégorie</label>
+				<div class="selectStyle">
+				<select name="Categorie" id="catAddProjet"></select>
+			</div>
+			</div>
+				<button id="validPic">Valider</button>
 		</div>
 	</div>
 	<div id="bandeauTop">
