@@ -154,7 +154,7 @@ for (let i = 0; i < listProjects.length; i++) {
   /* unProjet.style.cssText = `
   display: flex;
   flex-wrap: wrap;
-	justify-content: space-between;` */
+  justify-content: space-between;` */
   const titreElement = document.createElement("p");
   titreElement.innerText = "éditer";
   titreElement.style.textAlign = "left";
@@ -272,7 +272,7 @@ for (let uneCategorie of categorieSet) {
 /* for(let i = 0; i < categorieSet.length; i++){
   const uneCategorie = document.createElement("option");
   uneCategorie.value = 
-
+  
 } */
 
 document.getElementById("backModalAdd").addEventListener("change", function () {
@@ -290,20 +290,24 @@ document.getElementById("backModalAdd").addEventListener("change", function () {
 // POST NOUVEAU PROJET--------------------------------------------------------
 async function pushProject(event) {
   event.preventDefault();
-  // var projet = new FormData();
-  // projet.append("image", document.getElementById("preview").src);
-  // projet.append("title", document.getElementById("titreAddProjet").value);
-  // projet.append("category", 1);
+  const bodyData = new FormData();
+  bodyData.append("image", document.getElementById("preview").src);
+  bodyData.append("title", document.getElementById("titreAddProjet").value);
+  bodyData.append("category", document.getElementById("catAddProjet").value);
+  /*  var projet = new FormData();
+      projet.append("category", 1);
+      projet.append("image", document.getElementById("preview").src);
+      projet.append("title", document.getElementById("titreAddProjet").value);
+      */
+  /* let projet = {
+        image: document.getElementById("preview").src,
+        title: document.getElementById("titreAddProjet").value,
+        // category: document.getElementById("catAddProjet").value,
+        category: 1,
+      }; */
 
-  let projet = {
-    image: document.getElementById("preview").src,
-    title: document.getElementById("titreAddProjet").value,
-    // category: document.getElementById("catAddProjet").value,
-    category: 1,
-  };
-
-  console.log("projet", projet);
-  console.log("projetJSON", JSON.stringify(projet));
+  /* console.log("projet", projet);
+  console.log("projetJSON", JSON.stringify(projet)); */
   // var token = localStorage.getItem("token");
 
   fetch("http://localhost:5678/api/works", {
@@ -313,7 +317,7 @@ async function pushProject(event) {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
-    body: JSON.stringify(projet),
+    body: bodyData,
   }).then((response) => {
     if (response.status === 201) {
       //  ajout projet + supp modale
