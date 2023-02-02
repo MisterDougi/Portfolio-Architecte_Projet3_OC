@@ -306,34 +306,34 @@ async function pushProject(event) {
   console.log("projetJSON", JSON.stringify(projet));
   // var token = localStorage.getItem("token");
 
-  // fetch("http://localhost:5678/api/works", {
-  //   method: "POST",
-  //   accept: "application/json",
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //     "Content-Type": "multipart/form-data",
-  //   },
-  //   body: JSON.stringify(projet),
-  // }).then((response) => {
-  //   if (response.status === 201) {
-  //     //  ajout projet + supp modale
-  //   } else if (response.status === 400) {
-  //     alert("Mauvaise requête"); // exemple format pas bon
-  //   } else if (response.status === 401) {
-  //     alert("Vous n'avez pas les droits");
-  //     console.log(response);
-  //   } else if (response.status === 500) {
-  //     alert("erreur serveur");
-  //     // On transforme la promesse du serv en format JSON
-  //   } else if (!response.ok) {
-  //     const errorMessage = response.text();
-  //     throw new Error(errorMessage);
-  //   }
-  //   return response.json();
-  // });
-  // .then((data) => {
-  //   console.log("data", data);
-  // });
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+    body: JSON.stringify(projet),
+  }).then((response) => {
+    if (response.status === 201) {
+      //  ajout projet + supp modale
+    } else if (response.status === 400) {
+      alert("Mauvaise requête"); // exemple format pas bon
+    } else if (response.status === 401) {
+      alert("Vous n'avez pas les droits");
+      console.log(response);
+    } else if (response.status === 500) {
+      alert("erreur serveur");
+      // On transforme la promesse du serv en format JSON
+    } else if (!response.ok) {
+      const errorMessage = response.text();
+      throw new Error(errorMessage);
+    }
+    return response.json();
+  });
+  then((data) => {
+    console.log("data", data);
+  });
 }
 
 const added = document.getElementById("validPic");
