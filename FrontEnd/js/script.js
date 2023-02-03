@@ -147,10 +147,13 @@ for (let i = 0; i < listProjects.length; i++) {
   unProjet.appendChild(photoProject);
   unProjet.appendChild(trashPic);
   trashPic.classList.add("divTrash");
+  trashPic.id = listProjects[i].id;
   const trashCan = document.createElement("i");
   trashCan.classList.add("fa", "fa-light", "fa-trash-can", "pictoTrash");
   trashPic.appendChild(trashCan);
-
+  trashPic.addEventListener("click", function () {
+    deleteProject(listProjects[i].id);
+  });
   /* unProjet.style.cssText = `
   display: flex;
   flex-wrap: wrap;
@@ -294,11 +297,11 @@ async function pushProject(event) {
   bodyData.append("image", document.getElementById("preview").src);
   bodyData.append("title", document.getElementById("titreAddProjet").value);
   bodyData.append("category", document.getElementById("catAddProjet").value);
-  /*  var projet = new FormData();
-      projet.append("category", 1);
-      projet.append("image", document.getElementById("preview").src);
-      projet.append("title", document.getElementById("titreAddProjet").value);
-      */
+  var projet = new FormData();
+  projet.append("image", document.querySelector("#fileUpload").files[0]);
+  projet.append("title", document.getElementById("titreAddProjet").value);
+  projet.append("category", document.getElementById("catAddProjet").value);
+
   /* let projet = {
         image: document.getElementById("preview").src,
         title: document.getElementById("titreAddProjet").value,
@@ -318,20 +321,52 @@ async function pushProject(event) {
       "Content-Type": "multipart/form-data",
     },
     body: bodyData,
+  })
+    .then((response) => {
+      if (response.status === 201) {
+        //  ajout projet + supp modale
+      } else if (response.status === 400) {
+        alert("Mauvaise requête"); // exemple format pas bon
+      } else if (response.status === 401) {
+        alert("Vous n'avez pas les droits");
+        console.log(response);
+      } else if (response.status === 500) {
+        alert("erreur serveur");
+        // On transforme la promesse du serv en format JSON
+      } else if (!response.ok) {
+        const errorMessage = response.text();
+        throw new Error(errorMessage);
+      }
+      console.log(response.json);
+      /* return response.json(); */
+    })
+    .then((data) => {
+      console.log("data", data);
+    });
+}
+
+const added = document.getElementById("validPic");
+added.addEventListener("click", pushProject);
+
+// SUPPRESSION D'UN ÉLÉMENT
+function deleteProject(id) {
+  fetch("http://localhost:5678/api/works/" + id, {
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+    //body: bodyData,
   }).then((response) => {
-    if (response.status === 201) {
-      //  ajout projet + supp modale
-    } else if (response.status === 400) {
-      alert("Mauvaise requête"); // exemple format pas bon
+    if (response.status === 200) {
+      alert("projet supprimé !");
+      //  supppression du projet
     } else if (response.status === 401) {
-      alert("Vous n'avez pas les droits");
-      console.log(response);
+      alert("Non autorisé");
+      // console.log(response);
     } else if (response.status === 500) {
       alert("erreur serveur");
-      // On transforme la promesse du serv en format JSON
-    } else if (!response.ok) {
-      const errorMessage = response.text();
-      throw new Error(errorMessage);
     }
     return response.json();
   });
@@ -339,8 +374,3 @@ async function pushProject(event) {
     console.log("data", data);
   });
 }
-
-const added = document.getElementById("validPic");
-added.addEventListener("click", pushProject);
-
-// déclenche la fonction "pushProject" au clic (event)
