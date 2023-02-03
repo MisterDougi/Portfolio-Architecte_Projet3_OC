@@ -293,15 +293,19 @@ document.getElementById("backModalAdd").addEventListener("change", function () {
 // POST NOUVEAU PROJET--------------------------------------------------------
 async function pushProject(event) {
   event.preventDefault();
+  const fichierPhoto = document.getElementById("fileUpload").files[0];
   const bodyData = new FormData();
-  bodyData.append("image", document.getElementById("preview").src);
+  bodyData.append("image", fichierPhoto);
   bodyData.append("title", document.getElementById("titreAddProjet").value);
-  bodyData.append("category", document.getElementById("catAddProjet").value);
-  var projet = new FormData();
+  bodyData.append(
+    "category",
+    parseInt(document.getElementById("catAddProjet").value)
+  );
+  /* var projet = new FormData();
   projet.append("image", document.querySelector("#fileUpload").files[0]);
   projet.append("title", document.getElementById("titreAddProjet").value);
   projet.append("category", document.getElementById("catAddProjet").value);
-
+ */
   /* let projet = {
         image: document.getElementById("preview").src,
         title: document.getElementById("titreAddProjet").value,
@@ -311,14 +315,14 @@ async function pushProject(event) {
 
   /* console.log("projet", projet);
   console.log("projetJSON", JSON.stringify(projet)); */
-  // var token = localStorage.getItem("token");
+  var token = localStorage.getItem("token");
 
   fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      //"Content-Type": "multipart/form-data",
     },
     body: bodyData,
   })
