@@ -34,18 +34,9 @@ async function getInfo(event) {
     })
     .then((data) => {
       const token = data.token;
-      localStorage.setItem("token", token);
+      sessionStorage.setItem("token", token);
     });
 }
-/* function login(){
-  let login = localStorage.getItem("token");
-  if (login){
-  document.getElementById("account").innerText = "logout";
-  } else{
-    document.getElementById("account").innerText = "login";
-  }
-} */
 const form = document.getElementById("login");
 // déclenche la fonction "getInfo" au clic (event)
 form.addEventListener("submit", getInfo);
-login();
