@@ -2,7 +2,7 @@ import { afficherFiltres, afficherProjets } from "./script.js";
 // Lien avec le LocalHost
 
 const response = await fetch("http://localhost:5678/api/works");
-const listProjects = await response.json();
+let listProjects = await response.json();
 //Création d'un Set (tableau)
 const categorieSet = new Set();
 // categorieSet.add({ id: gallery.category.id, name: gallery.category.name });
@@ -30,30 +30,55 @@ async function pushProject() {
 
   var token = sessionStorage.getItem("token");
 
-  await fetch("http://localhost:5678/api/works", {
+  const response = await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
       accept: "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: bodyData,
-  })
-    .then((response) => {
-      if (response.status === 201) {
-        //  ajout projet + supp modale
-      } else if (response.status === 400) {
-        alert("Mauvaise requête"); // exemple format pas bon
-      } else if (response.status === 401) {
-        alert("Vous n'avez pas les droits");
-      } else if (response.status === 500) {
-        alert("erreur serveur");
-        // On transforme la promesse du serv en format JSON
-      } /*  else if (!response.ok) {
-        const errorMessage = response.text();
-        throw new Error(errorMessage);
-      } */
-    })
-    .then(() => {});
+  });
+  if (response.status === 201) {
+    // console.log(response.json());
+    const newProject = await response.json();
+    return newProject;
+    //  ajout projet + supp modale
+  } else if (response.status === 400) {
+    alert("Mauvaise requête"); // exemple format pas bon
+  } else if (response.status === 401) {
+    alert("Vous n'avez pas les droits");
+  } else if (response.status === 500) {
+    alert("erreur serveur");
+    // On transforme la promesse du serv en format JSON
+  }
+
+  // fetch("http://localhost:5678/api/works", {
+  //   method: "POST",
+  //   headers: {
+  //     accept: "application/json",
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  //   body: bodyData,
+  // }).then((response) => {
+  //   if (response.status === 201) {
+  //     // console.log(response.json());
+  //     return response.json().then(function (newProject) {
+  //       return newProject
+  //     });
+  //     //  ajout projet + supp modale
+  //   } else if (response.status === 400) {
+  //     alert("Mauvaise requête"); // exemple format pas bon
+  //   } else if (response.status === 401) {
+  //     alert("Vous n'avez pas les droits");
+  //   } else if (response.status === 500) {
+  //     alert("erreur serveur");
+  //     // On transforme la promesse du serv en format JSON
+  //   } /*  else if (!response.ok) {
+  //       const errorMessage = response.text();
+  //       throw new Error(errorMessage);
+  //     } */
+  // });
+  // .then(() => {});
 }
 
 // SUPPRESSION D'UN ÉLÉMENT------------------------------------------------------

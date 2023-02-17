@@ -1,31 +1,36 @@
 // Variable utilisée en scopeGlobal pour définir les filtres
 {
   var token = sessionStorage.getItem("token");
+  var editMode = sessionStorage.getItem("editMode");
+}
+
+function afficherUnProjet(unProjet) {
+  const projectElement = document.createElement("article");
+
+  // const gallery = listProjects[i];
+  projectElement.setAttribute("data-categorie", unProjet.category.name);
+  //querySelector sert à selectionner une classe html
+  const sectionPortfolio = document.querySelector(".gallery");
+  //Création éléments texte
+  const titreElement = document.createElement("p");
+  titreElement.innerText = unProjet.title;
+  //Création élément image
+  const imageElement = document.createElement("img");
+  imageElement.src = unProjet.imageUrl;
+  //Affichage de toutes les images (ne fonctionne pas sans)
+  imageElement.crossOrigin = "anonymous";
+  //Relier les éléments à un parent pour les afficher
+  sectionPortfolio.appendChild(projectElement);
+  projectElement.appendChild(imageElement);
+  projectElement.appendChild(titreElement);
 }
 
 // Fonction pour afficher la liste des projets du localhost
 function afficherProjets(listProjects) {
   //Boucle qui parcourt tous les projets
   for (let i = 0; i < listProjects.length; i++) {
-    // Création du bloc pour l'élément (projet)
-    const projectElement = document.createElement("article");
-
     const gallery = listProjects[i];
-    projectElement.setAttribute("data-categorie", gallery.category.name);
-    //querySelector sert à selectionner une classe html
-    const sectionPortfolio = document.querySelector(".gallery");
-    //Création éléments texte
-    const titreElement = document.createElement("p");
-    titreElement.innerText = gallery.title;
-    //Création élément image
-    const imageElement = document.createElement("img");
-    imageElement.src = gallery.imageUrl;
-    //Affichage de toutes les images (ne fonctionne pas sans)
-    imageElement.crossOrigin = "anonymous";
-    //Relier les éléments à un parent pour les afficher
-    sectionPortfolio.appendChild(projectElement);
-    projectElement.appendChild(imageElement);
-    projectElement.appendChild(titreElement);
+    afficherUnProjet(gallery);
   }
 }
 
@@ -86,6 +91,7 @@ function deco(token) {
 const logout = document.getElementById("account");
 logout.onclick = (token) => {
   deco(token);
+  sessionStorage.removeItem("editMode");
 };
 
 // Déclaration variables de la page édition (utilisateur log)-------------------
@@ -93,18 +99,34 @@ const modeEdition = document.getElementById("bandeauTop");
 const editDesc = document.getElementById("editDesc");
 const editPic = document.getElementById("editPic");
 const editProject = document.getElementById("editProject");
-
-if (token) {
-  modeEdition.style.display = "block";
-  editDesc.style.display = "block";
-  editPic.style.display = "block";
-  editProject.style.display = "block";
+const publierChangement = document.getElementById("publierChangement");
+const boutonEdition = document.getElementById("boutonEdition");
+if (sessionStorage.getItem("editMode") == "false") {
+  boutonEdition.style.display = "block";
 }
-document.getElementById("backModalAdd").addEventListener("change", function () {
-  var myPhoto = document.getElementById("preview").src;
-  var myInput = document.getElementById("titreAddProjet");
-  if (myInput && myInput.value && myPhoto) {
-    document.getElementById("validPic").style.backgroundColor = "#1D6154";
-  }
+if (token && editMode == "true") {
+  modeEdition.style.display = "block";
+  editDesc.style.display = "inline-block";
+  editPic.style.display = "inline-block";
+  editProject.style.display = "inline-block";
+}
+publierChangement.addEventListener("click", function (event) {
+  event.preventDefault();
+  modeEdition.style.display = "none";
+  editDesc.style.display = "none";
+  editPic.style.display = "none";
+  editProject.style.display = "none";
+  boutonEdition.style.display = "block";
+  sessionStorage.setItem("editMode", "false");
 });
-export { afficherProjets, afficherFiltres };
+boutonEdition.addEventListener("click", function (event) {
+  event.preventDefault();
+  modeEdition.style.display = "block";
+  editDesc.style.display = "inline-block";
+  editPic.style.display = "inline-block";
+  editProject.style.display = "inline-block";
+  boutonEdition.style.display = "none";
+  sessionStorage.setItem("editMode", "true");
+});
+
+export { afficherProjets, afficherFiltres, afficherUnProjet };

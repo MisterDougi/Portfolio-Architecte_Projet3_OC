@@ -35,6 +35,10 @@ async function getInfo(event) {
     .then((data) => {
       const token = data.token;
       sessionStorage.setItem("token", token);
+      let editMode = sessionStorage.getItem("editMode");
+      if (!editMode) {
+        sessionStorage.setItem("editMode", true);
+      }
     });
 }
 const form = document.getElementById("login");
